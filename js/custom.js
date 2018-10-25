@@ -1,22 +1,41 @@
 function initializeWidget()
 {
-	ZOHO.embeddedApp.on("PageLoad",function(data){
-		console.log(data);
-		document.getElementById("recordInfo").innerHTML = JSON.stringify(data,null,2);
-	})
 	/*
-	 * initialize widget
+	 * Subscribe to the EmbeddedApp onPageLoad event before initializing the widget 
 	 */
-	ZOHO.embeddedApp.init()
+	ZOHO.embeddedApp.on("PageLoad",function(data)
+	{
+		
 		/*
-		 * fetch current users data
-		 */
-		.then(ZOHO.CRM.CONFIG.getCurrentUser)
+	 	 * Verify if EntityInformation is Passed 
+	 	 */
+		if(data && data.Entity)
+		{
+			/*
+		 	 * Fetch Information of Record passed in PageLoad
+		 	 * and insert the response into the dom
+		 	 */
+			ZOHO.CRM.API.getRecord({Entity:data.Entity,RecordID:data.EntityId})
+			.then(function(response)
+			{
+				
+    				document.getElementById("recordInfo").innerHTML = JSON.stringify(response,null,2);
+			});	
+		}
+
 		/*
-		 * insert the response into the dom
+		 * Fetch Current User Information from CRM
+		 * and insert the response into the dom
 		 */
+		ZOHO.CRM.CONFIG.getCurrentUser()
 		.then(function(response)
 		{
 			document.getElementById("userInfo").innerHTML = JSON.stringify(response,null,2);
 		});
+		
+	})
+	/*
+	 * initialize the widget.
+	 */
+	ZOHO.embeddedApp.init();
 }
