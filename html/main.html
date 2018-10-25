@@ -3,6 +3,7 @@
 	  <link rel="stylesheet" href="../css/style.css">
 	  <script src="../js/lib/ZohoEmbededAppSDK.min.js"></script>
 	  <script src="../js/custom.js"></script>
+	  <script src="../js/jquery-min.js"></script>
 	</head>
 	<body>
 		<div class="topband">
@@ -18,5 +19,10 @@
 			<textarea id="recordInfo" contentEditable>		
 			</textarea>
 		</div>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				initializeWidget();
+			})
+		</script>
 	</body>
 </html>
