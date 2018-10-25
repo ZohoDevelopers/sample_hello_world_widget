@@ -1,5 +1,9 @@
 function initializeWidget()
 {
+	ZOHO.embeddedApp.on("PageLoad",function(data){
+		console.log(data);
+		document.getElementById("recordInfo").innerHTML = JSON.stringify(data,null,2);
+	})
 	/*
 	 * initialize widget
 	 */
@@ -14,18 +18,5 @@ function initializeWidget()
 		.then(function(response)
 		{
 			document.getElementById("userInfo").innerHTML = JSON.stringify(response,null,2);
-		})
-		/*
-		 * fetch current record data 
-		 */
-		.then(ZOHO.CRM.INTERACTION.getPageInfo)
-		/*
-		 * insert the response into the dom
-		 */
-		.then(function(response)
-		{
-			document.getElementById("recordInfo").innerHTML = JSON.stringify(response,null,2);
 		});
-
 }
-document.onreadystatechange = initializeWidget;
